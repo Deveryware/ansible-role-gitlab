@@ -53,6 +53,59 @@ gitlab_rails['ldap_servers'] = {
 }
 {% endif %}
 
+{% if gitlab_omniauth_enabled is defined %}
+gitlab_rails['omniauth_enabled'] = "{{ gitlab_omniauth_enabled }}"
+{% endif %}
+{% if gitlab_omniauth_allow_bypass_two_factor is defined %}
+{% if gitlab_omniauth_allow_bypass_two_factor is string or gitlab_omniauth_allow_bypass_two_factor is boolean %}
+gitlab_rails['omniauth_allow_bypass_two_factor'] = "{{ gitlab_omniauth_allow_bypass_two_factor }}"
+{% else %}
+gitlab_rails['omniauth_allow_bypass_two_factor'] = [ "{{ gitlab_omniauth_allow_bypass_two_factor|join(', ') }}" ]
+{% endif %}
+{% endif %}
+{% if gitlab_omniauth_allow_single_sign_on is defined %}
+{% if gitlab_omniauth_allow_single_sign_on is string or gitlab_omniauth_allow_single_sign_on is boolean %}
+gitlab_rails['omniauth_allow_single_sign_on'] = "{{ gitlab_omniauth_allow_single_sign_on }}"
+{% else %}
+gitlab_rails['omniauth_allow_single_sign_on'] = [ "{{ gitlab_omniauth_allow_single_sign_on|join(', ') }}" ]
+{% endif %}
+{% endif %}
+{% if gitlab_omniauth_auto_link_user is defined %}
+{% if gitlab_omniauth_auto_link_user is string or gitlab_omniauth_auto_link_user is boolean %}
+gitlab_rails['omniauth_auto_link_user'] = "{{ gitlab_omniauth_auto_link_user }}"
+{% else %}
+gitlab_rails['omniauth_auto_link_user'] = [ "{{ gitlab_omniauth_auto_link_user|join(', ') }}" ]
+{% endif %}
+{% endif %}
+{% if gitlab_omniauth_block_auto_created_users is defined %}
+gitlab_rails['omniauth_block_auto_created_users'] = "{{ gitlab_omniauth_block_auto_created_users }}"
+{% endif %}
+{% if gitlab_omniauth_providers is defined %}
+gitlab_rails['omniauth_providers'] = [
+{% for provider in gitlab_omniauth_providers %}
+  {
+    name: "openid_connect", # do not change this parameter
+    label: "{{ provider['name'] }}", # optional label for login button, defaults to "Openid Connect"
+    args: {
+      name: "openid_connect",
+      scope: ["openid", "profile", "email"],
+      response_type: "code",
+      issuer:  "{{ provider['issuer'] }}",
+      client_auth_method: "query",
+      discovery: true,
+      uid_field: "{{ provider['uid_field'] | default('preferred_username') }}",
+      pkce: true,
+      client_options: {
+        identifier: "{{ provider['client_id'] }}",
+        secret: "{{ provider['client_secret'] }}",
+        redirect_uri: "{{ provider['redirect_uri'] }}"
+      }
+    }
+  },
+{% endfor %}
+]
+{% endif %}
+
 # GitLab Nginx
 ## See https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md
 {% if gitlab_nginx_listen_port is defined %}
