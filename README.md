@@ -52,7 +52,7 @@ The `gitlab.rb.j2` template packaged with this role is meant to be very generic 
     gitlab_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_domain }}.crt"
     gitlab_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_domain }}.key"
 
-GitLab SSL configuration; tells GitLab to redirect normal http requests to https, and the path to the certificate and key (the default values will work for automatic self-signed certificate creation, if set to `true` in the variable below).
+GitLab SSL configuration tells GitLab to redirect normal http requests to https, and the path to the certificate and key (the default values will work for automatic self-signed certificate creation, if set to `true` in the variable below).
 
     # SSL Self-signed Certificate Configuration.
     gitlab_create_self_signed_cert: true
@@ -69,9 +69,10 @@ Whether to create a self-signed certificate for serving GitLab over a secure con
     gitlab_letsencrypt_auto_renew_day_of_month: "*/7"
     gitlab_letsencrypt_auto_renew: true
 
-GitLab LetsEncrypt configuration; tells GitLab whether to request and use a certificate from LetsEncrypt, if `gitlab_letsencrypt_enable` is set to `true`. Multiple contact emails can be configured under `gitlab_letsencrypt_contact_emails` as a list.
+GitLab LetsEncrypt configuration tells GitLab whether to request and use a certificate from LetsEncrypt, if `gitlab_letsencrypt_enable` is set to `true`. Multiple contact emails can be configured under `gitlab_letsencrypt_contact_emails` as a list.
 
-    # LDAP Configuration.
+### LDAP Configuration
+
     gitlab_ldap_enabled: false
     gitlab_ldap_host: "example.com"
     gitlab_ldap_port: "389"
@@ -81,7 +82,24 @@ GitLab LetsEncrypt configuration; tells GitLab whether to request and use a cert
     gitlab_ldap_password: "password"
     gitlab_ldap_base: "DC=example,DC=com"
 
-GitLab LDAP configuration; if `gitlab_ldap_enabled` is `true`, the rest of the configuration will tell GitLab how to connect to an LDAP server for centralized authentication. gitlab_ldap_method is one of 'start_tls', 'simple_tls', or 'plain' (usually, you want simple_tls): see https://docs.gitlab.com/ee/administration/auth/ldap/ for full gitlab documentation.
+GitLab LDAP configuration tells Gitlab whether to use LDAP authentification if `gitlab_ldap_enabled` is `true`. The rest of the configuration will tell GitLab how to connect to an LDAP server for centralized authentication. gitlab_ldap_method is one of 'start_tls', 'simple_tls', or 'plain' (usually, you want simple_tls): see https://docs.gitlab.com/ee/administration/auth/ldap/ for full gitlab documentation.
+
+### OpenID Connnect OmniAuth Configuration
+
+    gitlab_omniauth_enabled: 'true'
+    gitlab_omniauth_allow_single_sign_on: 'true'
+    gitlab_omniauth_auto_link_user: [ "openid_connect" ]
+    gitlab_omniauth_allow_bypass_two_factor: [ "openid_connect" ]
+    gitlab_omniauth_providers:
+      - name: "MySSO"
+        issuer: "https://keycloak.example.com/auth/realms/myrealm"
+        redirect_uri: "https://gitlab.example.com/users/auth/openid_connect/callback"
+        client_id: "MY_CLIENT_ID"
+        client_secret: "MY_CLIENT_SECRET"
+
+GitLab OmniAuth configuration tells Gitlab whether to use OpenID Connect as authentification mecanism if `gitlab_omniauth_enabled` is `true`. The rest of the configuration will tell GitLab how to connect to an OpenID Connect provider. This will also support SAML configuration. See https://docs.gitlab.com/administration/auth/oidc/ for full gitlab documentation.
+
+### Dependencies
 
     gitlab_dependencies:
       - openssh-server
@@ -112,7 +130,8 @@ Controls whether to validate certificates when downloading the GitLab installati
 
 Gitlab system mail configuration. Disabled by default; set `gitlab_email_enabled` to `true` to enable, and make sure you enter valid from/reply-to values.
 
-    # SMTP Configuration
+### SMTP Configuration
+
     gitlab_smtp_enable: false
     gitlab_smtp_address: "smtp.server"
     gitlab_smtp_port: "465"
@@ -144,6 +163,8 @@ If you want to enable [2-way SSL Client Authentication](https://docs.gitlab.com/
     gitlab_default_theme: 2
 
 GitLab includes a number of themes, and you can set the default for all users with this variable. See [the included GitLab themes to choose a default](https://github.com/gitlabhq/gitlabhq/blob/master/config/gitlab.yml.example#L79-L85).
+
+### Extra Settings
 
     gitlab_extra_settings:
       - gitlab_rails:
