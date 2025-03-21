@@ -57,32 +57,32 @@ gitlab_rails['ldap_servers'] = {
 gitlab_rails['omniauth_enabled'] = "{{ gitlab_omniauth_enabled }}"
 {% endif %}
 {% if gitlab_omniauth_allow_bypass_two_factor is defined %}
-{% if gitlab_omniauth_allow_bypass_two_factor is string or gitlab_omniauth_allow_bypass_two_factor is boolean %}
+{%   if gitlab_omniauth_allow_bypass_two_factor is string or gitlab_omniauth_allow_bypass_two_factor is boolean %}
 gitlab_rails['omniauth_allow_bypass_two_factor'] = "{{ gitlab_omniauth_allow_bypass_two_factor }}"
-{% else %}
+{%   else %}
 gitlab_rails['omniauth_allow_bypass_two_factor'] = [ "{{ gitlab_omniauth_allow_bypass_two_factor|join(', ') }}" ]
-{% endif %}
+{%   endif %}
 {% endif %}
 {% if gitlab_omniauth_allow_single_sign_on is defined %}
-{% if gitlab_omniauth_allow_single_sign_on is string or gitlab_omniauth_allow_single_sign_on is boolean %}
+{%   if gitlab_omniauth_allow_single_sign_on is string or gitlab_omniauth_allow_single_sign_on is boolean %}
 gitlab_rails['omniauth_allow_single_sign_on'] = "{{ gitlab_omniauth_allow_single_sign_on }}"
-{% else %}
+{%   else %}
 gitlab_rails['omniauth_allow_single_sign_on'] = [ "{{ gitlab_omniauth_allow_single_sign_on|join(', ') }}" ]
-{% endif %}
+{%   endif %}
 {% endif %}
 {% if gitlab_omniauth_auto_link_user is defined %}
-{% if gitlab_omniauth_auto_link_user is string or gitlab_omniauth_auto_link_user is boolean %}
+{%   if gitlab_omniauth_auto_link_user is string or gitlab_omniauth_auto_link_user is boolean %}
 gitlab_rails['omniauth_auto_link_user'] = "{{ gitlab_omniauth_auto_link_user }}"
-{% else %}
+{%   else %}
 gitlab_rails['omniauth_auto_link_user'] = [ "{{ gitlab_omniauth_auto_link_user|join(', ') }}" ]
-{% endif %}
+{%   endif %}
 {% endif %}
 {% if gitlab_omniauth_block_auto_created_users is defined %}
 gitlab_rails['omniauth_block_auto_created_users'] = "{{ gitlab_omniauth_block_auto_created_users }}"
 {% endif %}
 {% if gitlab_omniauth_providers is defined %}
 gitlab_rails['omniauth_providers'] = [
-{% for provider in gitlab_omniauth_providers %}
+{%   for provider in gitlab_omniauth_providers %}
   {
     name: "openid_connect", # do not change this parameter
     label: "{{ provider['name'] }}", # optional label for login button, defaults to "Openid Connect"
@@ -102,7 +102,7 @@ gitlab_rails['omniauth_providers'] = [
       }
     }
   },
-{% endfor %}
+{%   endfor %}
 ]
 {% endif %}
 
