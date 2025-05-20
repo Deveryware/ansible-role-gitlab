@@ -22,7 +22,7 @@ Available variables are listed below, along with default values (see `defaults/m
 
 The domain and URL at which the GitLab instance will be accessible. This is set as the `external_url` configuration setting in `gitlab.rb`, and if you want to run GitLab on a different port (besides 80/443), you can specify the port here (e.g. `https://gitlab:8443/` for port 8443).
 
-    gitlab_git_data_dir: "/var/opt/gitlab/git-data"
+    gitlab_git_data_dir: "/var/opt/gitlab/git-data/repositories"
 
 The `gitlab_git_data_dir` is the location where all the Git repositories will be stored. You can use a shared drive or any path on the system.
 
