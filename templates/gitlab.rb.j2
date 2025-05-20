@@ -29,7 +29,6 @@ letsencrypt['auto_renew'] = {{ gitlab_letsencrypt_auto_renew | lower }}
 {% endif %}
 
 # The directory where Git repositories will be stored.
-#git_data_dirs({"default" => {"path" => "{{ gitlab_git_data_dir }}"} })
 gitaly['configuration'] = {storage: [{name: 'default',path: '/var/opt/gitlab/git-data/repositories',},],}
 
 # The directory where Gitlab backups will be stored
