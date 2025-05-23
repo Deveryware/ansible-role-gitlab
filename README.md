@@ -25,6 +25,7 @@ The domain and URL at which the GitLab instance will be accessible. This is set 
     gitlab_git_data_dir: "/var/opt/gitlab/git-data/repositories"
 
 The `gitlab_git_data_dir` is the location where all the Git repositories will be stored. You can use a shared drive or any path on the system.
+Note: This default value has changed for compatibility with Gitlab versions above 18.0.0 See https://docs.gitlab.com/omnibus/settings/configuration.html#migrating-from-git_data_dirs for migration instructions.
 
     gitlab_backup_path: "/var/opt/gitlab/backups"
 
