@@ -47,6 +47,18 @@
   poll: 5
   when: not gitlab_file.stat.exists
 
+- name: Gather package facts
+  package_facts:
+    manager: auto
+
+- name: Fetch gitlab installed version
+  set_fact:
+    gitlab_installed_version: "{{ ansible_facts.packages[gitlab_edition][0].version }}"
+
+- name: Is gitlab version post 18.0.0 ?
+  set_fact:
+    is_gitlab_version_post_18: "{{ gitlab_installed_version is version_compare('18.0.0', '>=') }}"
+
 # Start and configure GitLab. Sometimes the first run fails, but after that,
 # restarts fix problems, so ignore failures on this run.
 - name: Reconfigure GitLab (first run).
