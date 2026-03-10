@@ -30,7 +30,31 @@ letsencrypt['auto_renew'] = {{ gitlab_letsencrypt_auto_renew | lower }}
 
 # The directory where Git repositories will be stored.
 {% if is_gitlab_version_post_18 %}
-gitaly['configuration'] = {storage: [{name: 'default',path: '{{ gitlab_git_data_dir }}',},],}
+gitaly['configuration'] = {
+  storage: [
+    {
+      name: 'default',
+      path: '{{ gitlab_git_data_dir }}',
+    },
+  ],
+  concurrency: [
+{% for item in gitlab_gitaly_configuration.concurrency %}
+    {
+      'rpc' => "{{ item.rpc }}",
+      'max_per_repo' => {{ item.max_per_repo }},
+    },
+{% endfor %}
+  ],
+  cgroups: {
+    repositories: {
+      count: {{ gitlab_gitaly_configuration.cgroups.repositories.count }},
+    },
+    mountpoint: {{ 'nil' if gitlab_gitaly_configuration.cgroups.mountpoint is none else "'" ~ gitlab_gitaly_configuration.cgroups.mountpoint ~ "'" }},
+    hierarchy_root: {{ 'nil' if gitlab_gitaly_configuration.cgroups.hierarchy_root is none else "'" ~ gitlab_gitaly_configuration.cgroups.hierarchy_root ~ "'" }},
+    memory_bytes: {{ gitlab_gitaly_configuration.cgroups.memory_bytes }},
+    cpu_shares: {{ gitlab_gitaly_configuration.cgroups.cpu_shares }},
+  },
+}
 {% else %}
 git_data_dirs({"default" => {"path" => "{{ gitlab_git_data_dir }}"} })
 {% endif %}
