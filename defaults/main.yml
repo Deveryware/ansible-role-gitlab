@@ -81,3 +81,14 @@ gitlab_letsencrypt_auto_renew_hour: 1
 gitlab_letsencrypt_auto_renew_minute: 30
 gitlab_letsencrypt_auto_renew_day_of_month: "*/7"
 gitlab_letsencrypt_auto_renew: true
+
+#gitaly configuration
+gitlab_gitaly_configuration:
+  concurrency: []
+  cgroups:
+    repositories:
+      count: 0
+    mountpoint: null
+    hierarchy_root: null
+    memory_bytes: 0
+    cpu_shares: 0
