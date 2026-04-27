@@ -1,6 +1,18 @@
 # The URL through which GitLab will be accessed.
 external_url "{{ gitlab_external_url }}"
 
+# Optionnal Pages configuration
+{% if gitlab_pages_enable %}
+pages_external_url "{{ gitlab_pages_url }}"
+{%   if gitlab_pages_single_domain %}
+gitlab_pages['namespace_in_path'] = true
+{%   endif %}
+pages_nginx['enable'] = true
+pages_nginx['listen_port'] = "{{ gitlab_pages_port }}"
+pages_nginx['listen_https'] = {{ gitlab_pages_nginx_listen_https | lower }}
+pages_nginx['redirect_http_to_https'] = {{ gitlab_pages_redirect_http_to_https | lower }}
+{% endif %}
+
 # gitlab.yml configuration
 gitlab_rails['time_zone'] = "{{ gitlab_time_zone }}"
 gitlab_rails['backup_keep_time'] = {{ gitlab_backup_keep_time }}

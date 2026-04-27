@@ -41,6 +41,15 @@ gitlab_smtp_openssl_verify_mode: "none"
 gitlab_smtp_ca_path: "/etc/ssl/certs"
 gitlab_smtp_ca_file: "/etc/ssl/certs/ca-certificates.crt"
 
+# Gitlab pages Configuration
+gitlab_pages_enable: false
+gitlab_pages_domain: "gitlab-pages"
+gitlab_pages_single_domain: false
+gitlab_pages_url: "https://{{ gitlab_pages_domain }}/"
+gitlab_pages_port: "8080"
+gitlab_pages_nginx_listen_https: false
+gitlab_pages_redirect_http_to_https: true
+
 # 2-way SSL Client Authentication support.
 gitlab_nginx_ssl_verify_client: ""
 gitlab_nginx_ssl_client_certificate: ""
