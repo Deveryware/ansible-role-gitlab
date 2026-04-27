@@ -165,6 +165,24 @@ If you want to enable [2-way SSL Client Authentication](https://docs.gitlab.com/
 
 GitLab includes a number of themes, and you can set the default for all users with this variable. See [the included GitLab themes to choose a default](https://github.com/gitlabhq/gitlabhq/blob/master/config/gitlab.yml.example#L79-L85).
 
+### Gitlab Pages
+
+To Enable Gitlab Pages:
+
+    gitlab_pages_enable: true
+    gitlab_pages_domain: "my-pages.domain.tld"
+
+If gitlab_pages_single_domain is true, it will configure Gitlab Pages like that: https://{{ gitlab_pages_domain }}/<namespace>/<project_slug>. Otherwise, it will be https://<nmespace>.{{ gitlab_pages_domain }}//<project_slug> (wildcard domaoin managment needed)
+
+    gitlab_pages_single_domain: true
+
+Other parameters: 
+
+    gitlab_pages_url: "https://{{ gitlab_pages_domain }}/"
+    gitlab_pages_port: "8070"
+    gitlab_pages_nginx_listen_https: false
+    gitlab_pages_redirect_http_to_https: true
+
 ### Extra Settings
 
     gitlab_extra_settings:
